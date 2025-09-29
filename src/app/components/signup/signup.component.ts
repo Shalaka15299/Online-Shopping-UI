@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import ValidateForm from 'src/app/helpers/validateform';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-signup',
@@ -13,7 +15,7 @@ export class SignupComponent implements OnInit {
   isText:boolean = false;
   eyeIcon:string = "fa-eye-slash";
   signupForm!:FormGroup;
-  constructor(private fb:FormBuilder) { }
+  constructor(private fb:FormBuilder,private auth:AuthService,private router:Router) { }
 
   ngOnInit(): void {
     this.signupForm = this.fb.group({
@@ -29,6 +31,19 @@ export class SignupComponent implements OnInit {
   onSignup(){
     if(this.signupForm.valid){
       console.log(this.signupForm.value);
+
+      //send the obj to database
+      this.auth.signup(this.signupForm.value)
+      .subscribe({
+        next:(res)=>{
+          alert(res.message);
+          this.signupForm.reset();
+          this.router.navigate(['login']);
+        },
+        error:(err)=>{
+          alert(err?.error.message);
+        }
+      })
     }
     else{
       //throw the error using toaster and with required fields
