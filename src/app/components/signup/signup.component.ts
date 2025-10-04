@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import ValidateForm from 'src/app/helpers/validateform';
 import { AuthService } from 'src/app/services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-signup',
@@ -15,7 +16,7 @@ export class SignupComponent implements OnInit {
   isText:boolean = false;
   eyeIcon:string = "fa-eye-slash";
   signupForm!:FormGroup;
-  constructor(private fb:FormBuilder,private auth:AuthService,private router:Router) { }
+  constructor(private fb:FormBuilder,private auth:AuthService,private router:Router,private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.signupForm = this.fb.group({
@@ -36,19 +37,22 @@ export class SignupComponent implements OnInit {
       this.auth.signup(this.signupForm.value)
       .subscribe({
         next:(res)=>{
-          alert(res.message);
+          // alert(res.message);
+          this.toastr.success(res.message,"SUCCESS");
           this.signupForm.reset();
           this.router.navigate(['login']);
         },
         error:(err)=>{
-          alert(err?.error.message);
+          // alert(err?.error.message);
+          this.toastr.error(err?.error.message,"Error");
         }
       })
     }
     else{
       //throw the error using toaster and with required fields
       ValidateForm.addValidatorsToAllFields(this.signupForm);
-      alert("Please fill all the required fields");
+      this.toastr.error("Please fill all the required fields","Error");
+      // alert("Please fill all the required fields");
       console.log("form is not valid");
 
     }
