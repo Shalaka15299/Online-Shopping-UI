@@ -1,3 +1,6 @@
 <p>dashboard works!</p>
-
 <button class="btn btn-danger" (click)="signOut()">LogOut</button>
+
+<ul *ngFor="let users of user">
+<li>{{users.username}}</li>
+</ul>
