@@ -38,8 +38,13 @@ export class LoginComponent implements OnInit {
           //  alert(res.message);
           console.log(res.message);
           this.loginForm.reset();
-           this.toastr.success(res.message,"SUCCESS");
-          this.router.navigate(['login']);
+          this.auth.storeToken(res.token);
+           this.toastr.success(res.message,"SUCCESS",{
+            // timeOut:3000,
+            progressBar:true,
+            progressAnimation:'increasing'
+           });
+          this.router.navigate(['dashboard']);
         },
         error:(err)=>{
           console.log(err);
