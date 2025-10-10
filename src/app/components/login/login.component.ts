@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 // import { NgToastService } from 'ng-angular-popup';
 import ValidateForm from 'src/app/helpers/validateform';
 import { AuthService } from 'src/app/services/auth.service';
+import { UserStoreService } from 'src/app/services/user-store.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,7 @@ export class LoginComponent implements OnInit {
   eyeIcon:string = "fa-eye-slash";
 
   loginForm!:FormGroup;
-  constructor(private fb:FormBuilder,private auth:AuthService,private router:Router,private toastr: ToastrService) { }
+  constructor(private fb:FormBuilder,private auth:AuthService,private router:Router,private toastr: ToastrService,private userStore:UserStoreService) { }
 
   ngOnInit(): void {
     this.loginForm =this.fb.group({
@@ -39,6 +40,9 @@ export class LoginComponent implements OnInit {
           console.log(res.message);
           this.loginForm.reset();
           this.auth.storeToken(res.token);
+          const tokenPayload = this.auth.decodedToken();
+          this.userStore.setFullNameForStore(tokenPayload.unique_name);
+          this.userStore.setRoleForStore(tokenPayload.role);
            this.toastr.success(res.message,"SUCCESS",{
             // timeOut:3000,
             progressBar:true,

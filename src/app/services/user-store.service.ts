@@ -23,7 +23,7 @@ export class UserStoreService {
     return this.role$.asObservable();
   }
 
-  public setRoleForśStore(role:string){
+  public setRoleForStore(role:string){
     this.role$.next(role);
   }
 
