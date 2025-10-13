@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit {
     this.api.getAllUsers()
     .subscribe(res=>{
         this.user= res;
-        console.log(res);      
+        // console.log(res);      
     });
 
     this.userStore.getFullNameFromStore()
