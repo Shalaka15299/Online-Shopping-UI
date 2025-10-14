@@ -14,11 +14,13 @@ import { UserStoreService } from 'src/app/services/user-store.service';
 })
 export class LoginComponent implements OnInit {
  
+  public loginForm!:FormGroup;
   type:string = "password";
   isText:boolean = false;
   eyeIcon:string = "fa-eye-slash";
-
-  loginForm!:FormGroup;
+  public resetPasswordEmail!:string;
+  public isValidEmail!:boolean;
+  
   constructor(private fb:FormBuilder,private auth:AuthService,private router:Router,private toastr: ToastrService,private userStore:UserStoreService) { }
 
   ngOnInit(): void {
@@ -74,5 +76,11 @@ export class LoginComponent implements OnInit {
     this.isText ? this.type = "text" :this.type = "password";
   }
 
+  checkValidEmail(event:string){
+    const value = event;
+    const pattern =/^[\w-\.]+@([\w-]+\.)+[\w-]{2,3}$/;
+    this.isValidEmail = pattern.test(value);
+    return this.isValidEmail;
+  }
   
 }

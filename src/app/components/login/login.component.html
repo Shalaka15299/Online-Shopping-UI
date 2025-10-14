@@ -24,7 +24,7 @@
                             </div>
                             <small *ngIf="loginForm.controls['password'].dirty && loginForm.hasError('required','password')" class="text-danger">*Password is required</small>
                             <div class="form-inline mt-4">
-                                <a id="forget" class="font-weight-bold">Forget Password?</a>
+                                <a id="forget" data-bs-toggle="modal" data-bs-target="#exampleModal" class="font-weight-bold">Forget Password?</a>
                             </div>
                             <button (click)="onLogin()" type="submit" class="btn btn-primary btn-block mt-4 w-100">Login</button>
                             <div class="text-center text-muted pt-4">Don't have account?<a id="forget" routerLink="/signup">Sign Up</a></div>
@@ -42,4 +42,31 @@
             </div>
         </div>
     </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">    
+        <p class="modal-title" id="exampleModalLabel"><span style="font-size: 25px;font-weight: 700;">Forget Your Password?</span><br/>
+        <small>Please provide your Email we will send the reset Link</small></p>
+
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>         
+      </div>
+      
+      <div class="modal-body">
+        <div class="form-group pt-3">
+            <div class="input-field"><span class="fa fa-user p-2"></span><input [(ngModel)]="resetPasswordEmail" (ngModelChange)="checkValidEmail($event)" type="text" placeholder="Email"></div>
+        </div>
+        <small *ngIf="!resetPasswordEmail" class="text-danger">*Email  is required</small>
+        <small *ngIf="!isValidEmail && resetPasswordEmail" class="text-danger">*Email  is Invalid</small>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Send</button>
+      </div>
+    </div>
+  </div>
 </div>
