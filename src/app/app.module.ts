@@ -15,6 +15,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './interceptors/token.interceptor';
+import { ResetComponent } from './components/reset/reset.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
     AppComponent,
     LoginComponent,
     SignupComponent,
-    DashboardComponent
+    DashboardComponent,
+    ResetComponent
   ],
   imports: [
     FormsModule,

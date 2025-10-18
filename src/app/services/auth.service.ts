@@ -12,7 +12,7 @@ export class AuthService {
   private payload:any;
   constructor(private http:HttpClient) {
     this.payload = this.decodedToken();
-    console.log(this.payload);
+    // console.log(this.payload);
    }
 
   signup(userObj:any){
@@ -46,7 +46,7 @@ export class AuthService {
   decodedToken(){
     const jwtHelper = new JwtHelperService();
     const token = this.getToken() || '';
-    console.log("Decoded Token: ",jwtHelper.decodeToken(token))
+    // console.log("Decoded Token: ",jwtHelper.decodeToken(token))
     return jwtHelper.decodeToken(token);
   }
   

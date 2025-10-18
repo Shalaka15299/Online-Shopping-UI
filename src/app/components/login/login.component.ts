@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 // import { NgToastService } from 'ng-angular-popup';
 import ValidateForm from 'src/app/helpers/validateform';
 import { AuthService } from 'src/app/services/auth.service';
+import { ResetPasswordService } from 'src/app/services/reset-password.service';
 import { UserStoreService } from 'src/app/services/user-store.service';
 
 @Component({
@@ -21,7 +22,7 @@ export class LoginComponent implements OnInit {
   public resetPasswordEmail!:string;
   public isValidEmail!:boolean;
   
-  constructor(private fb:FormBuilder,private auth:AuthService,private router:Router,private toastr: ToastrService,private userStore:UserStoreService) { }
+  constructor(private fb:FormBuilder,private auth:AuthService,private router:Router,private toastr: ToastrService,private userStore:UserStoreService,private resetService:ResetPasswordService) { }
 
   ngOnInit(): void {
     this.loginForm =this.fb.group({
@@ -81,6 +82,29 @@ export class LoginComponent implements OnInit {
     const pattern =/^[\w-\.]+@([\w-]+\.)+[\w-]{2,3}$/;
     this.isValidEmail = pattern.test(value);
     return this.isValidEmail;
+  }
+
+  confirmToSend(){
+    if(this.checkValidEmail(this.resetPasswordEmail)){
+      console.log(this.resetPasswordEmail);     
+
+      //API call
+      this.resetService.sendResetPasswordLink(this.resetPasswordEmail)
+      .subscribe({
+        next:(res)=>{
+          this.resetPasswordEmail = "";
+          // const btnRef = document.getElementById("btnClose");
+          // btnRef?.click();
+      document.getElementById("btnClose")?.click();
+      
+      this.toastr.success("Reset Link sent to your email","Success");
+        },
+        error:(err)=>{
+          this.toastr.error(err?.error.message,"Error");
+        }
+      });
+
+    }
   }
   
 }
